@@ -1,0 +1,30 @@
+# Modelfile for the scratch-built model (EXPERIMENTAL)
+# Replace './converted_model.gguf' with the actual path to your GGUF file
+# after attempting conversion with llama.cpp
+FROM ./converted_model_q4_K_M.gguf
+
+# --- Parameters (Optional) ---
+# Adjust these based on experimentation
+PARAMETER temperature 0.7
+PARAMETER top_k 40
+# PARAMETER stop "<|im_end|>" # If using ChatML or similar stop tokens
+PARAMETER stop "[EOS]" # Use the actual EOS token string from your tokenizer
+
+# --- System Prompt (Optional) ---
+# Define a default behavior. May not work well if the model wasn't trained for it.
+# SYSTEM """You are a helpful assistant trained from scratch on OpenHermes."""
+
+# --- Template (CRUCIAL - MUST MATCH TRAINING DATA FORMAT) ---
+# This defines how Ollama structures the prompt fed to the model.
+# It MUST match the format used in src/data_utils.py _preprocess function.
+# Example below assumes "Role: Message " format used in data_utils.py
+TEMPLATE """{{ if .System }}System: {{ .System }} {{ end }}{{ if .Prompt }}User: {{ .Prompt }} {{ end }}Assistant: {{ .Response }}"""
+
+# --- Alternative Template Example (ChatML format) ---
+# If you adapt data_utils.py to use ChatML:
+# TEMPLATE """<|im_start|>system
+# {{ .System }}<|im_end|>
+# <|im_start|>user
+# {{ .Prompt }}<|im_end|>
+# <|im_start|>assistant
+# {{ .Response }}<|im_end|>"""

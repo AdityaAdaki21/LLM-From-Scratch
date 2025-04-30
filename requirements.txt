@@ -1,0 +1,10 @@
+torch
+torchvision
+torchaudio
+datasets>=2.10.0
+tokenizers>=0.13.0
+tqdm
+notebook # For interactive development if needed
+accelerate # Often helpful for PyTorch training/multi-GPU
+sentencepiece # Often needed by tokenizers/converters
+protobuf # Often needed by tokenizers/converters
